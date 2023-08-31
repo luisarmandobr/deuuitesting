@@ -1,4 +1,13 @@
-import homeVinotecaPage from "../pages/vinoteca/homeVinotecaPage"
+import homeVinotecaPage from "../pages/vinoteca/homeVinotecaPage";
+import promocionesPage from "../pages/vinoteca/promocionesPage";
+import productoPage from "../pages/vinoteca/productoPage";
+import rightSideCarritoPage from "../pages/vinoteca/rightSideCarritoPage";
+import checkoutPage from "../pages/vinoteca/checkoutPage";
+import checkoutShippingPage from "../pages/vinoteca/checkoutShippingPage";
+
+Cypress.once('uncaught:exception', (err, runnable) => {
+  return false;
+})
 require('dotenv').config();
 
 describe('Compra exitosa en plataforma', () => {
@@ -20,8 +29,37 @@ describe('Compra exitosa en plataforma', () => {
       cy.log('Botón Aceptar Cookies NO existe ---> Continuar');
     }
 
-    //Click en menú "Promociones"
+    //Seleccionar menú "Promociones"
     homeVinotecaPage.clickMenuPromociones();
+    cy.wait(3000);
+    cy.scrollTo(0,700);
+
+    //Seleccionar producto
+    promocionesPage.clickProductoBuscado();
+
+    //Seleccionar Agregar al Carrito
+    productoPage.clickAgregarProductoAlCarrito();
+
+    //Ingresar al carrito
+    productoPage.clickIngresarAlCarrito();
+
+    //Ir al checkout
+    rightSideCarritoPage.ClickIrAlCheckout();
+
+    //ProcederAlPago
+    checkoutPage.ClickProcederAlPago();
+
+    //Llenar formulario
+    checkoutShippingPage.writeClientEmail()
+    checkoutShippingPage.writeClientFirstName()
+    checkoutShippingPage.writeClientLastName()
+    checkoutShippingPage.writeClientPhone()
+    checkoutShippingPage.checkOptInNewsletter()
+    checkoutShippingPage.checkFormTerms()
+
+    //Enviar formulario
+    checkoutShippingPage.ClickButtonSubmit()
+
 
   })
 })
