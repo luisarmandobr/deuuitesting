@@ -1,1 +1,1 @@
-# deuuitesting
+# Compra exitosa en plataforma
